@@ -1,0 +1,32 @@
+android.applicationVariants.all { variant ->
+    if (variant.name.contains('release')) {
+        task docGen(type: Javadoc) {
+
+            options.memberLevel = JavadocMemberLevel.PUBLIC
+            failOnError false
+            classpath += files(variant.javaCompile.classpath.files)
+            classpath += files(android.getBootClasspath())
+//    classpath =  classpath.add(files(android.getBootClasspath()))
+//            options.links('')
+            options.links("http://d.android.com/reference","http://docs.oracle.com/javase/8/docs/api/")
+            source = android.sourceSets.main.java.srcDirs
+            def sSet = new HashSet(android.sourceSets.main.java.srcDirs)
+            sSet.add(android.sourceSets.main.java.srcDirs[0].getAbsolutePath().replace('app','*'))
+            sSet.forEach() {
+                println it
+            }
+            def includeSet = [
+                    'lin/tao/citest/one/*'
+                    ,'lin/tao/citest/two/Test.java'
+            ]
+            def excludeSet = [
+                    'lin/tao/citest/two/Test.java'
+            ]
+
+
+            println "file path ${file('./').getAbsolutePath()}"
+            destinationDir = file('../ddd')
+
+        }
+    }
+}
