@@ -3,12 +3,12 @@ node(node_label) {
     echo 'pay script starts'
 //    configEnv()
     cloneRepo()
-    configFileProvider(
-            [configFile(
-                    fileId: '5773ddd9-d493-4dd5-bda0-81a42c261cd7',
-                    targetLocation: "${WORKSPACE}/"
-            )]
-    ) {
+//    configFileProvider(
+//            [configFile(
+//                    fileId: '5773ddd9-d493-4dd5-bda0-81a42c261cd7',
+//                    targetLocation: "${WORKSPACE}/"
+//            )]
+//    ) {
         deploy(filePath)
         try {
             timeout(time: 1, unit: 'MINUTES') {
@@ -16,7 +16,7 @@ node(node_label) {
             }
         } catch (e) {
         }
-    }
+//    }
     echo 'pay script done'
 }
 
