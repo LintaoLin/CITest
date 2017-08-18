@@ -28,7 +28,6 @@ def cloneRepo() {
             url: "git@git.elenet.me:eleme.mobile.android/pay.git"
     )
 }
-
 def deployVersion() {
     sdk_version
 }
