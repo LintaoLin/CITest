@@ -8,7 +8,14 @@ android.applicationVariants.all { variant ->
             classpath += files(android.getBootClasspath())
 //    classpath =  classpath.add(files(android.getBootClasspath()))
 //            options.links('')
-            options.links("http://d.android.com/reference","http://docs.oracle.com/javase/8/docs/api/")
+            options {
+                links 'http://docs.oracle.com/javase/8/docs/api/'
+                linksOffline 'http://d.android.com/reference',"${android.sdkDirectory}/docs/reference"
+            }
+
+//            println "android sdk dir: ${android.sdk}"
+//            options.links("http://d.android.com/reference","http://docs.oracle.com/javase/8/docs/api/")
+//            options.linksOffline
             source = android.sourceSets.main.java.srcDirs
             def sSet = new HashSet(android.sourceSets.main.java.srcDirs)
             sSet.add(android.sourceSets.main.java.srcDirs[0].getAbsolutePath().replace('app','*'))

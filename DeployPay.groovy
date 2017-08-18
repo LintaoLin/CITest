@@ -1,6 +1,7 @@
 def filePath = 'ui/library.gradle'
 node(node_label) {
     echo 'pay script starts'
+//    configEnv()
     cloneRepo()
     configFileProvider(
             [configFile(
@@ -8,7 +9,7 @@ node(node_label) {
                     targetLocation: "${WORKSPACE}/"
             )]
     ) {
-        deploy()
+        deploy(filePath)
         try {
             timeout(time: 1, unit: 'MINUTES') {
                 echo ' deploy success'
@@ -47,21 +48,23 @@ def deploy(filePath) {
     configProxy()
     configSdk()
     deployLibrary(filePath)
-    deployCore(filePath)
+    deployUI(filePath)
 }
 
 def deployLibrary(String filePath) {
     echo 'deploy library'
-    new File(filePath).write('dependencies { \n compile project(\':library\')\n}')
+//    new File(filePath).write('dependencies { \n compile project(\':library\')\n}')
+    writeFile file: filePath, text: 'dependencies { \n compile project(\':library\')\n}'
     println 'deploy library'
-//    uploadArchives('library')
+    uploadArchives('library')
 }
 
-def deployCore(String filePath) {
-    echo 'deply core'
-    new File(filePath).write('dependencies { \n compile \"me.ele:pay-core:\$sdk_version\" \n}')
-//    uploadArchives('core')
-    println 'deploy core'
+def deployUI(String filePath) {
+    echo 'deply ui'
+//    new File(filePath).write('dependencies { \n compile \"me.ele:pay-core:\$sdk_version\" \n}')
+    writeFile file: filePath, text: 'dependencies { \n compile \"me.ele:pay-core:\$sdk_version\" \n}'
+    uploadArchives('ui')
+    println 'deploy ui'
 }
 
 def readLastBuildRevision(lastRevFile) {
@@ -94,7 +97,8 @@ def isDebug() {
 
 def uploadArchives(repo) {
     println "upload $repo"
-    def cmd = "./gradlew $repo:uploadArchives"
+//    def cmd = "./gradlew $repo:uploadArchives"
+    def cmd = 'ls -a'
     try {
         def process = cmd.execute()
         process.waitFor()
@@ -105,7 +109,7 @@ def uploadArchives(repo) {
             println(it)
         }
     } catch (Exception err) {
-        err.printStackTrace()
+        println err
     }
 }
 
@@ -130,6 +134,14 @@ def deployDetail() {
 def deployFailedSummary() {
     "${mention()}\n${isDebug()? 'deploy':'release'} *${gitlabSourceRepoName}* module ${deployVersionName()} `failed` (<${env.BUILD_URL}/console|log>)"
 }
+
+def configEnv() {
+    jdk = tool name: jdk_version
+    env.JAVA_HOME = "${jdk}"
+    echo "jdk installation path is: ${jdk}"
+    sh '$JAVA_HOME/bin/java -version'
+}
+
 def notifySucceed() {
     slackSend (
             channel: slack_channel,
