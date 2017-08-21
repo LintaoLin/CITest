@@ -10,28 +10,37 @@ node(node_label) {
 //    ) {
 
 
-    pritnln "sdk version = ${deploy()}"
-        try {
-            timeout(time: 1, unit: 'MINUTES') {
-                echo ' deploy success'
-            }
-        } catch (e) {
+    println "sdk version = ${deploy()}"
+    println "sdk version = ${deploy()}"
+
+    try {
+        timeout(time: 1, unit: 'MINUTES') {
+            echo ' deploy success'
         }
+    } catch (e) {
+    }
 //    }
     echo 'pay script done'
 }
 
 def deploy() {
+    if (sdkVersion != null) {
+        return sdkVersion
+    }
     String source = new File('/Users/lint/Desktop/eleme/pay/build.gradle').text
-    println source
-    String sdkVersion
+
     List<String> stringList = source.readLines()
-    stringList.each {
-        println it
-        if (it.contains('sdk_version')) {
-            sdkVersion = it.substring(it.indexOf('=') + 1, it.length()).trim()
+    for (String line: stringList) {
+        println line
+        if (line.contains('sdk_version')) {
+            sdkVersion = line.substring(line.indexOf('=') + 1, line.length()).trim()
+            sdkVersion = sdkVersion.substring(1, sdkVersion.length() - 1)
+            println sdkVersion
+            if(sdkVersion != null) {
+                println 'break loop'
+                return sdkVersion
+            }
         }
     }
-    if (sdkVersion == null) throw new Exception('empty sdk version')
-    sdkVersion
+    throw new Exception('empty sdk version')
 }
