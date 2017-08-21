@@ -53,7 +53,7 @@ def configSdkVersion() {
         }
     }
     if (sdkVersion != null && !sdkVersion.isEmpty()) {
-        source = source.replace(sdkVersion)
+        source = source.replace(mainVersion, sdkVersion)
         writeFile file: buildFilePath, text: source
         println 'config version'
         source = readFile buildFilePath
