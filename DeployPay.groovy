@@ -2,7 +2,7 @@ import groovy.transform.Field
 
 def filePath = 'ui/library.gradle'
 
-@Field String sdkVersion = null
+@Field String sdkVersion
 node(node_label) {
     echo 'pay script starts'
 //    configEnv()
@@ -42,10 +42,14 @@ def deploy() {
             sdkVersion = sdkVersion.substring(1, sdkVersion.length() - 1)
             println sdkVersion
             if(sdkVersion != null) {
-                println 'break loop'
-                return sdkVersion
+                return sdkVersion + (isDebug() ? '-SNAPSHOT' : '')
             }
         }
     }
     throw new Exception('empty sdk version')
+}
+
+def isDebug() {
+    println "debug ${debug}"
+    return debug == 'true'
 }
