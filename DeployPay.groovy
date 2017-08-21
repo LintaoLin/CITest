@@ -42,7 +42,8 @@ def deploy() {
             sdkVersion = sdkVersion.substring(1, sdkVersion.length() - 1)
             println sdkVersion
             if(sdkVersion != null) {
-                return sdkVersion + (isDebug() ? '-SNAPSHOT' : '')
+                sdkVersion += (isDebug() ? '-SNAPSHOT' : '')
+                return sdkVersion
             }
         }
     }
