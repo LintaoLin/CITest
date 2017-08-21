@@ -25,6 +25,7 @@ def deploy() {
     String source = new File('/Users/lint/Desktop/eleme/pay/build.gradle').text
     String sdkVersion
     source.eachLine {
+        println it
         if (it.contains('sdk_version')) {
             sdkVersion = it.substring(it.indexOf('=') + 1, it.length()).trim()
         }
