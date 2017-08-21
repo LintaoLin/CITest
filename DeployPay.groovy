@@ -23,6 +23,7 @@ node(node_label) {
 
 def deploy() {
     String source = new File('/Users/lint/Desktop/eleme/pay/build.gradle').text
+    println source
     String sdkVersion
     source.eachLine {
         println it
