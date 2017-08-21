@@ -26,3 +26,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+ext {
+    sdk_version = '1.2.0-SNAPSHOT'
+}
+

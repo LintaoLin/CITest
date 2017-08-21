@@ -1,4 +1,5 @@
 def filePath = 'ui/library.gradle'
+String sdkVersion
 node(node_label) {
     echo 'pay script starts'
 //    configEnv()
@@ -10,7 +11,7 @@ node(node_label) {
 //    ) {
 
 
-    deploy()
+    pritnln "sdk version = ${deploy()}"
         try {
             timeout(time: 1, unit: 'MINUTES') {
                 echo ' deploy success'
@@ -24,6 +25,10 @@ node(node_label) {
 def deploy() {
     String source = new File('/Users/lint/Desktop/eleme/pay/build.gradle').text
     source.eachLine {
-        println(it)
+        if (it.contains('sdk_version')) {
+            sdkVersion = it.substring(it.indexOf('=') + 1, it.length()).trim()
+        }
     }
+    if (sdkVersion == null) throw new Exception('empty sdk version')
+    sdkVersion
 }
