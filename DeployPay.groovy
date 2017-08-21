@@ -14,6 +14,7 @@ node(node_label) {
 //    ) {
 
 
+    configSdkVersion()
     println "sdk version = ${deploy()}"
     println "sdk version = ${deploy()}"
     println filePath
@@ -32,14 +33,19 @@ def deploy() {
     if (sdkVersion != null) {
         return sdkVersion
     }
-    String source = new File('/Users/lint/Desktop/eleme/pay/build.gradle').text
+    throw new Exception('empty sdk version')
+}
 
+def configSdkVersion() {
+    def buildFilePath = '/Users/lint/Desktop/AndroidProject/CITest/build.gradle'
+    String source = readFile buildFilePath
     List<String> stringList = source.readLines()
     for (String line: stringList) {
         println line
         if (line.contains('sdk_version')) {
             sdkVersion = line.substring(line.indexOf('=') + 1, line.length()).trim()
             sdkVersion = sdkVersion.substring(1, sdkVersion.length() - 1)
+            mainVersion = sdkVersion
             println sdkVersion
             if(sdkVersion != null) {
                 sdkVersion += (isDebug() ? '-SNAPSHOT' : '')
@@ -47,7 +53,13 @@ def deploy() {
             }
         }
     }
-    throw new Exception('empty sdk version')
+    if (sdkVersion != null && !sdkVersion.isEmpty()) {
+        source = source.replace(sdkVersion)
+        writeFile file: buildFilePath, text: source
+        println 'config version'
+        source = readFile buildFilePath
+        println source
+    }
 }
 
 def isDebug() {
