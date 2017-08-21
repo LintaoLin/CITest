@@ -49,7 +49,6 @@ def configSdkVersion() {
             println sdkVersion
             if(sdkVersion != null) {
                 sdkVersion += (isDebug() ? '-SNAPSHOT' : '')
-                return sdkVersion
             }
         }
     }
