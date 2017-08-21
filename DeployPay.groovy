@@ -1,4 +1,8 @@
+import groovy.transform.Field
+
 def filePath = 'ui/library.gradle'
+
+@Field String sdkVersion = null
 node(node_label) {
     echo 'pay script starts'
 //    configEnv()
@@ -12,6 +16,7 @@ node(node_label) {
 
     println "sdk version = ${deploy()}"
     println "sdk version = ${deploy()}"
+    println filePath
 
     try {
         timeout(time: 1, unit: 'MINUTES') {
