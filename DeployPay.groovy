@@ -5,7 +5,8 @@ def filePath = 'ui/library.gradle'
 @Field String sdkVersion
 node(node_label) {
     echo 'pay script starts'
-//    configEnv()
+    cloneRepo()
+    //    configEnv()
 //    configFileProvider(
 //            [configFile(
 //                    fileId: '5773ddd9-d493-4dd5-bda0-81a42c261cd7',
@@ -34,6 +35,15 @@ def deploy() {
         return sdkVersion
     }
     throw new Exception('empty sdk version')
+}
+
+def cloneRepo() {
+    stage 'clone pay module repo'
+    git (
+        branch: "develop",
+        credentialsId: '1efbdf54-7156-4f91-8a59-2d062981aa15',
+        url: "git@git.elenet.me:eleme.mobile.android/pay.git"
+    )
 }
 
 def configSdkVersion() {
