@@ -40,9 +40,8 @@ def deploy() {
 def cloneRepo() {
     stage 'clone pay module repo'
     git (
-        branch: "develop",
-        credentialsId: '1efbdf54-7156-4f91-8a59-2d062981aa15',
-        url: "git@git.elenet.me:eleme.mobile.android/pay.git"
+        branch: "master",
+        url: "https://github.com/LintaoLin/CITest.git"
     )
 }
 
