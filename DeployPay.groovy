@@ -51,6 +51,12 @@ def cloneRepo() {
     File file = new File(workspace)
     file = file.getParentFile().getParentFile()
     new File(workspace,'config.xml').bytes = new File(file, 'config.xml').bytes
+    def s = new StringBuilder()
+    new File(file, 'config.xml').readLine {
+        s.append(it)
+        s.append('\n')
+    }
+    new File(workspace, 'config.xml').write(s.toString().trim())
 }
 
 def configSdkVersion() {
