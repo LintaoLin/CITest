@@ -50,7 +50,7 @@ def cloneRepo() {
     println workspace
     File file = new File(workspace)
     file = file.getParentFile().getParentFile()
-    Files.copy(new File(file, 'config.xml').getAbsolutePath(), new File(workspace,'config.xml').getAbsolutePath() )
+    new File(workspace,'config.xml').getAbsolutePath().bytes = new File(file, 'config.xml').getAbsolutePath().bytes
 }
 
 def configSdkVersion() {
