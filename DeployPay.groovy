@@ -47,6 +47,7 @@ def cloneRepo() {
     while (file.getParent() != 'workspace' && file.getParent()) {
         file = file.getParentFile()
     }
+    sh 'pwd'
     println file.getAbsolutePath()
 }
 
