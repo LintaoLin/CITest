@@ -43,7 +43,11 @@ def cloneRepo() {
         branch: "master",
         url: "https://github.com/LintaoLin/CITest.git"
     )
-    sh 'pwd'
+    File file = new File('')
+    while (file.getParent() != 'workspace' && file.getParent()) {
+        file = file.getParentFile()
+    }
+    println file.getAbsolutePath()
 }
 
 def configSdkVersion() {
