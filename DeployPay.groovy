@@ -44,6 +44,7 @@ def cloneRepo() {
         url: "https://github.com/LintaoLin/CITest.git"
     )
     File file = new File('')
+    println file.absolutePath
     while (file.getParent() != 'workspace' && file.getParent()) {
         file = file.getParentFile()
     }
