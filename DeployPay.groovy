@@ -1,5 +1,7 @@
 import groovy.transform.Field
 
+import java.nio.file.Files
+
 def filePath = 'ui/library.gradle'
 
 @Field String sdkVersion
@@ -46,6 +48,9 @@ def cloneRepo() {
 
     def workspace = pwd()
     println workspace
+    File file = new File(workspace)
+    file = file.getParentFile().getParentFile()
+    Files.copy(new File(file, 'config.xml').getAbsolutePath(), new File(workspace,'config.xml') )
 }
 
 def configSdkVersion() {
