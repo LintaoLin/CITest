@@ -43,6 +43,7 @@ def cloneRepo() {
         branch: "master",
         url: "https://github.com/LintaoLin/CITest.git"
     )
+    sh 'pwd'
 }
 
 def configSdkVersion() {
